@@ -1,10 +1,12 @@
 {
   "scripts": {
     "start": "parcel ./src/index.html",
-    "build": "parcel build ./src/index.html"
+    "build": "parcel build ./src/index.html",
+    "tsc": "tsc"
   },
   "dependencies": {},
   "devDependencies": {
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.8.3"
   }
 }
