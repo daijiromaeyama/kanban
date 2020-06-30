@@ -5,20 +5,25 @@ import { randomID, sortBy, reorderPatch } from '../src/util'
 const test = baretest('util')
 setImmediate(() => test.run())
 
-test('randomID', async () => {
-  const pattern = /^[0-9A-Za-z_-]{12}$/
-
+test('randomID: 重複しない', async () => {
+  // 10,000 程度なら重複する確率はゼロ
   const size = 10_000
   const unique = new Set<string>()
 
   for (let i = 0; i < size; i++) {
     const id = randomID()
     unique.add(id)
-
-    // assert.ok(pattern.test(id), `${id} does not match ${pattern}`)
   }
 
+  // Set オブジェクトは重複した値を保持しないので、id が重複すると unique.size の値が size より小さくなる
   // assert.equal(unique.size, size)
+})
+
+test('randomID: 書式パターンどおりに生成される', async () => {
+  const pattern = /^[0-9A-Za-z_-]{12}$/
+  const id = randomID()
+
+  // assert.ok(pattern.test(id), `${id} does not match ${pattern}`)
 })
 
 test('sortBy', async () => {
