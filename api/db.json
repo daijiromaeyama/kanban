@@ -57,16 +57,26 @@
     {
       "id": "i",
       "text": "New"
+    },
+    {
+      "id": "l",
+      "text": "説明"
+    },
+    {
+      "id": "6",
+      "text": "take2"
     }
   ],
   "cardsOrder": {
-    "cXrtw5n8-FsB": "i",
+    "6": "l",
+    "cXrtw5n8-FsB": "6",
     "w7DTqK1QQKTI": "TsXP5w9qLeM-",
     "bfrqTfEydU38": "bfrqTfEydU38",
     "dfwMbxZS0EmM": "7lR4Vd3EYixP",
     "7lR4Vd3EYixP": "dfwMbxZS0EmM",
     "TsXP5w9qLeM-": "w7DTqK1QQKTI",
     "ulnuLLt5TN93": "cXrtw5n8-FsB",
-    "i": "ulnuLLt5TN93"
+    "i": "ulnuLLt5TN93",
+    "l": "i"
   }
 }
