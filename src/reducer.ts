@@ -8,12 +8,12 @@ export type State = {
   columns?: {
     id: ColumnID
     title?: string
-    text?: string
     cards?: {
       id: CardID
       text?: string
     }[]
   }[]
+  columnTexts?: string[]
   cardsOrder: Record<string, CardID | ColumnID | null>
   draggingCardID?: CardID
   deletingCardID?: CardID

@@ -1,41 +1,48 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useSelector, shallowEqual } from 'react-redux'
 import * as color from './color'
 import { Card } from './Card'
 import { PlusIcon } from './icon'
 import { InputForm as _InputForm } from './InputForm'
-import { CardID, ColumnID } from './api'
+import { ColumnID } from './api'
 
 export function Column({
   id: columnID,
-  title,
-  cards: rawCards,
-  onTextCancel,
 }: {
   id: ColumnID
-  title?: string
-  cards?: {
-    id: CardID
-    text?: string
-  }[]
-  onTextCancel?(): void
 }) {
-  const filterValue = useSelector(state => state.filterValue.trim())
-  const keywords = filterValue.toLowerCase().split(/\s+/g) ?? []
-  const cards = rawCards?.filter(({ text }) =>
-    keywords?.every(w => text?.toLowerCase().includes(w)),
+  const { column, cards, filtered, totalCount } = useSelector(state => {
+    const filterValue = state.filterValue.trim()
+    const filtered = Boolean(filterValue)
+    const keywords = filterValue.toLowerCase().split(/\s+/g)
+
+    const { title, cards: rawCards } =
+      state.columns?.find(c => c.id === columnID) ?? {}
+
+    const column = { title }
+    const cards = rawCards
+      ?.filter(({ text }) =>
+        keywords.every(w => text?.toLowerCase().includes(w)),
+      )
+      .map(c => c.id)
+    const totalCount = rawCards?.length ?? -1
+
+    return { column, cards, filtered, totalCount }
+  },
+  (left, right) =>
+    Object.keys(left).every(key => shallowEqual(left[key], right[key])),
   )
-  const totalCount = rawCards?.length ?? -1
+  const draggingCardID = useSelector(state => state.draggingCardID)
 
   const [inputMode, setInputMode] = useState(false)
   const toggleInput = () => setInputMode(v => !v)
-  const cancelInput = () => {
-    setInputMode(false)
-    onTextCancel?.()
-  }
+  const cancelInput = () => setInputMode(false)
 
-  const draggingCardID = useSelector(state => state.draggingCardID)
+  if (!column) {
+    return null
+  }
+  const { title } = column
 
   return (
     <Container>
@@ -58,16 +65,16 @@ export function Column({
       ) : (
         <>
 
-          {filterValue && <ResultCount>{cards.length} results</ResultCount>}
+          {filtered && <ResultCount>{cards.length} results</ResultCount>}
 
           <VerticalScroll>
-            {cards.map(({ id }, i) => (
+            {cards.map((id, i) => (
               <Card.DropArea
                 key={id}
                 targetID={id}
                 disabled={
                   draggingCardID !== undefined &&
-                  (id === draggingCardID || cards[i - 1]?.id === draggingCardID)
+                  (id === draggingCardID || cards[i - 1] === draggingCardID)
                 }
               >
                 <Card
@@ -80,7 +87,7 @@ export function Column({
               targetID={columnID}
               disabled={
                 draggingCardID !== undefined &&
-                cards[cards.length - 1]?.id === draggingCardID
+                cards[cards.length - 1] === draggingCardID
               }
             />
           </VerticalScroll>
