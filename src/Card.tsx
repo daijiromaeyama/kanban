@@ -1,38 +1,56 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import { CardID } from './api'
 import * as color from './color'
 import { CheckIcon as _CheckIcon, TrashIcon } from './icon'
 
 Card.DropArea = DropArea
 
 export function Card({
-  text,
-  onDragStart,
-  onDragEnd,
-  onDeleteClick,
+  id,
 }: {
-  text?: string
-  onDragStart?(): void
-  onDragEnd?(): void
-  onDeleteClick?(): void
+  id: CardID
 }) {
-  const [drag, setDrag] = useState(false)
+  const dispatch = useDispatch()
+  const card = useSelector(state =>
+    state.columns?.flatMap(c => c.cards ?? []).find(c => c.id === id),
+  )
+  const drag = useSelector(state => state.draggingCardID === id)
+
+  const onDeleteClick = () =>
+    dispatch({
+      type: 'Card.SetDeletingCard',
+      payload: {
+        cardID: id,
+      },
+    })
+
+  if (!card) {
+    return null
+  }
+  const { text } = card
 
   return (
     <Container
       style={{ opacity: drag ? 0.5 : undefined }}
       onDragStart={() => {
-        onDragStart?.()
-        setDrag(true)
+        dispatch({
+          type: 'Card.StartDragging',
+          payload: {
+            cardID: id,
+          },
+        })
       }}
       onDragEnd={() => {
-        onDragEnd?.()
-        setDrag(false)
+        dispatch({
+          type: 'Card.EndDragging',
+        })
       }}
     >
       <CheckIcon />
 
-      {text?.split(/(https?:\/\/\S+)/g).map((fragment, i) =>
+      {text?.split(/(https?:\/\/\S)/g).map((fragment, i) =>
         i % 2 === 0 ? (
           <Text key={i}>{fragment}</Text>
         ) : (
