@@ -5,9 +5,10 @@ import * as color from './color'
 import { Card } from './Card'
 import { PlusIcon } from './icon'
 import { InputForm as _InputForm } from './InputForm'
-import { CardID } from './api'
+import { CardID, ColumnID } from './api'
 
 export function Column({
+  id: columnID,
   title,
   cards: rawCards,
   onCardDrop,
@@ -16,12 +17,12 @@ export function Column({
   onTextConfirm,
   onTextCancel,
 }: {
+  id: ColumnID
   title?: string
   cards?: {
     id: CardID
     text?: string
   }[]
-  onCardDrop?(entered: CardID | null): void
   text?: string
   onTextChange?(value: string): void
   onTextConfirm?(): void
@@ -75,11 +76,11 @@ export function Column({
             {cards.map(({ id }, i) => (
               <Card.DropArea
                 key={id}
+                targetID={id}
                 disabled={
                   draggingCardID !== undefined &&
                   (id === draggingCardID || cards[i - 1]?.id === draggingCardID)
                 }
-                onDrop={() => onCardDrop?.(id)}
               >
                 <Card
                   id={id}
@@ -88,11 +89,11 @@ export function Column({
             ))}
 
             <Card.DropArea style={{ height: '100%' }}
+              targetID={columnID}
               disabled={
                 draggingCardID !== undefined &&
                 cards[cards.length - 1]?.id === draggingCardID
               }
-              onDrop={() => onCardDrop?.(null)}
             />
           </VerticalScroll>
         </>
