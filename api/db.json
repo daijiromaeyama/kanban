@@ -61,17 +61,22 @@
     {
       "id": "6",
       "text": "take2"
+    },
+    {
+      "id": "S",
+      "text": "追加できる？"
     }
   ],
   "cardsOrder": {
     "6": "cXrtw5n8-FsB",
     "cXrtw5n8-FsB": "l",
-    "w7DTqK1QQKTI": "TsXP5w9qLeM-",
+    "w7DTqK1QQKTI": "S",
     "bfrqTfEydU38": "bfrqTfEydU38",
     "dfwMbxZS0EmM": "7lR4Vd3EYixP",
     "7lR4Vd3EYixP": "dfwMbxZS0EmM",
     "TsXP5w9qLeM-": "w7DTqK1QQKTI",
     "ulnuLLt5TN93": "6",
-    "l": "ulnuLLt5TN93"
+    "l": "ulnuLLt5TN93",
+    "S": "TsXP5w9qLeM-"
   }
 }
