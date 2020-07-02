@@ -16,14 +16,14 @@ test('randomID: 重複しない', async () => {
   }
 
   // Set オブジェクトは重複した値を保持しないので、id が重複すると unique.size の値が size より小さくなる
-  // assert.equal(unique.size, size)
+  assert.equal(unique.size, size)
 })
 
 test('randomID: 書式パターンどおりに生成される', async () => {
   const pattern = /^[0-9A-Za-z_-]{12}$/
   const id = randomID()
 
-  // assert.ok(pattern.test(id), `${id} does not match ${pattern}`)
+  assert.ok(pattern.test(id), `${id} does not match ${pattern}`)
 })
 
 test('sortBy', async () => {
