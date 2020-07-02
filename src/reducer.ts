@@ -8,6 +8,7 @@ export type State = {
   columns?: {
     id: ColumnID
     title?: string
+    text?: string
     cards?: {
       id: CardID
       text?: string
